@@ -1,0 +1,11 @@
+package git.test;
+
+import org.eclipse.jgit.api.Git;
+
+public class GitMain {
+
+	public GitMain() {
+		Git git = Git.open(new File("D:\\CCViews\\gitStroe\\stu"));
+	}
+
+}

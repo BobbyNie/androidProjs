@@ -1,0 +1,29 @@
+package git.test;
+
+import java.io.File;
+import java.io.IOException;
+import java.util.List;
+
+import org.eclipse.jgit.api.Git;
+import org.eclipse.jgit.api.ListTagCommand;
+import org.eclipse.jgit.api.errors.GitAPIException;
+import org.eclipse.jgit.lib.Ref;
+
+public class GitMain {
+
+	public GitMain() {
+		try {
+			Git git = Git.open(new File("D:\\CCViews\\gitStroe\\stu"));
+			
+			ListTagCommand taglistcmd = git.tagList();
+
+			List<Ref> taglist = taglistcmd.call();
+			 
+			
+			
+		} catch (IOException | GitAPIException e) {
+			e.printStackTrace();
+		}
+	}
+
+}

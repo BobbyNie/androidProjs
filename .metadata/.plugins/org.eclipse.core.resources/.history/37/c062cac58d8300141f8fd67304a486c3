@@ -1,0 +1,9 @@
+package git.test;
+
+public class GitMain {
+
+	public GitMain() {
+		// TODO Auto-generated constructor stub
+	}
+
+}
