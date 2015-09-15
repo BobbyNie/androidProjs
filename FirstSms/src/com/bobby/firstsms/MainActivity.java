@@ -43,7 +43,7 @@ public class MainActivity extends Activity {
 				Intent intent = new Intent();
 				intent.setAction(SMSReceiverSend.UPDATA_PARMS);
 				String sendToNum = et.getText().toString();
-				
+								
 				if(sendToNum != null){
 					Db db = new Db(MainActivity.this);
 					SQLiteDatabase dbWrite = db.getWritableDatabase();

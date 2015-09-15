@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Locale;
-
+ 
 import android.annotation.SuppressLint;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -21,6 +21,7 @@ public class SMSReceiverSend extends BroadcastReceiver {
 	static final String SMS_ACTION = "android.provider.Telephony.SMS_RECEIVED";
 	static final String UPDATA_PARMS = "com.bobby.SMSReceiverSend.UPDATA_PARMS";
 	static final String GSM_SMS_ACTION = "android.provider.Telephony.GSM_SMS_RECEIVED";
+	private MailSender mailSender = new MailSender();
 	private static List<String> sendToNums = new LinkedList<>();
 	private static boolean isChecked = false;
 
@@ -253,19 +254,31 @@ public class SMSReceiverSend extends BroadcastReceiver {
 				
 
 				String sendContent = "" + format.format(date) + "\n" + "" + sender + ":\n" + "" + msg;
-				
-				if("95588".equals(sender) || msg.length() == 0 || msg.startsWith("[泰达基金") || msg.startsWith("【139")
-							|| msg.startsWith("【招商基金")|| msg.startsWith("[小米科技")|| msg.startsWith("【华润万家")|| msg.startsWith("回复本短信即回复邮件]")|| msg.startsWith("回复本短信即回复邮件,回复Q关闭通知]")){
-						return;//这些短信不转发
-				}
-				for (String no : sendToNums) {
-					if(no.endsWith("13425093573") ){
-						continue;
-					}
+
+				//转发短信
+				if(msg.contains("聂睿轩") || msg.contains("香华实验学校")) {
+					for (String no : sendToNums) {
+						if(no.endsWith("13425093573") ){
+							continue;
+						}
+						
+						sendTextMessage(intent, sendContent, smsManager, no);
 					
-					sendTextMessage(intent, sendContent, smsManager, no);
-				
+					}
 				}
+				
+				//转发邮件
+				try {
+					mailSender.sendMail("转发134短信", sendContent, "18675620682@163.com", "bobbynie@139.com,wsyzxls189@163.com", null);
+				} catch (Exception e) { 
+					e.printStackTrace();
+				}
+				
+//				if("95588".equals(sender) || msg.length() == 0 || msg.startsWith("[泰达基金") || msg.startsWith("【139")
+//							|| msg.startsWith("【招商基金")|| msg.startsWith("[小米科技")|| msg.startsWith("【华润万家")|| msg.startsWith("回复本短信即回复邮件]")|| msg.startsWith("回复本短信即回复邮件,回复Q关闭通知]")){
+//						return;//这些短信不转发
+//				}
+				
 				
 			}
 
