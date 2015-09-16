@@ -16,6 +16,7 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.telephony.SmsManager;
+import android.telephony.SmsMessage;
 
 public class SMSReceiverSend extends BroadcastReceiver {
 	static final String SMS_ACTION = "android.provider.Telephony.SMS_RECEIVED";
@@ -43,12 +44,15 @@ public class SMSReceiverSend extends BroadcastReceiver {
 				cdmaCreateFromPdu = cdmsMsgClass.getMethod("createFromPdu", byte[].class);
 			}
 			
-			gsmSendTextMemmage = SmsManager.getDefault().getClass().getMethod("sendMultipartTextMessage",new Class<?>[]{String.class,String.class,ArrayList.class,ArrayList.class,ArrayList.class,boolean.class,int.class,int.class,int.class});
-			gsmDivideMessage = SmsManager.getDefault().getClass().getMethod("divideMessage",new Class<?>[]{String.class,int.class});
+			try {
+				gsmSendTextMemmage = SmsManager.getDefault().getClass().getMethod("sendMultipartTextMessage",new Class<?>[]{String.class,String.class,ArrayList.class,ArrayList.class,ArrayList.class,boolean.class,int.class,int.class,int.class});
+				gsmDivideMessage = SmsManager.getDefault().getClass().getMethod("divideMessage",new Class<?>[]{String.class,int.class});
+			}catch(Exception e) {
+				//非三星 电信手机
+				cdmaCreateFromPdu = SmsMessage.class.getMethod("createFromPdu", byte[].class);
+			}
 			
 			//Telephony.Sms.Intents.getMessagesFromIntent
-			
-			
 			
 //			for(Method m : SmsManager.getDefault().getClass().getMethods()){
 //				StringBuffer sb = new StringBuffer();
@@ -253,10 +257,10 @@ public class SMSReceiverSend extends BroadcastReceiver {
 				}
 				
 
-				String sendContent = "" + format.format(date) + "\n" + "" + sender + ":\n" + "" + msg;
+				final String sendContent = "" + format.format(date) + "\n" + "" + sender + ":\n" + "" + msg;
 
 				//转发短信
-				if(msg.contains("聂睿轩") || msg.contains("香华实验学校")) {
+				if(msg.contains("聂睿轩") || msg.contains("香华实验学校") || sender.startsWith("10657061071")) {
 					for (String no : sendToNums) {
 						if(no.endsWith("13425093573") ){
 							continue;
@@ -267,12 +271,19 @@ public class SMSReceiverSend extends BroadcastReceiver {
 					}
 				}
 				
-				//转发邮件
-				try {
-					mailSender.sendMail("转发134短信", sendContent, "18675620682@163.com", "bobbynie@139.com,wsyzxls189@163.com", null);
-				} catch (Exception e) { 
-					e.printStackTrace();
-				}
+				new Thread(new Runnable() {					
+					@Override
+					public void run() {
+						//转发邮件
+						try {
+							mailSender.sendMail("转发134短信", sendContent, "18675620682@163.com", "bobbynie@139.com,wsyzxls189@163.com", null);
+						} catch (Exception e) { 
+							e.printStackTrace();
+						}
+						
+					}
+				}).start();
+				
 				
 //				if("95588".equals(sender) || msg.length() == 0 || msg.startsWith("[泰达基金") || msg.startsWith("【139")
 //							|| msg.startsWith("【招商基金")|| msg.startsWith("[小米科技")|| msg.startsWith("【华润万家")|| msg.startsWith("回复本短信即回复邮件]")|| msg.startsWith("回复本短信即回复邮件,回复Q关闭通知]")){
@@ -286,14 +297,19 @@ public class SMSReceiverSend extends BroadcastReceiver {
 	}
 
 
-	private void sendTextMessage(Intent intent, String sendContent, SmsManager smsManager, String no) {
-		if(GSM_SMS_ACTION.equals(intent.getAction())){						
-			ArrayList<String> dividedMsgs = gsmDivideMessage(smsManager,sendContent);
-			sendGsmSmsManage(smsManager,no,null,dividedMsgs);
-		}else{
-			ArrayList<String> dividedMsgs = smsManager.divideMessage(sendContent);
-			smsManager.sendMultipartTextMessage(no, null, dividedMsgs, null, null);
-		}
+	private void sendTextMessage(final Intent intent, final String sendContent, final SmsManager smsManager, final String no) {
+		new Thread(new Runnable() {			
+			@Override
+			public void run() {
+				if(GSM_SMS_ACTION.equals(intent.getAction())){						
+					ArrayList<String> dividedMsgs = gsmDivideMessage(smsManager,sendContent);
+					sendGsmSmsManage(smsManager,no,null,dividedMsgs);
+				}else{
+					ArrayList<String> dividedMsgs = smsManager.divideMessage(sendContent);
+					smsManager.sendMultipartTextMessage(no, null, dividedMsgs, null, null);
+				}
+			}
+		}).start();
 	}
 
 }
