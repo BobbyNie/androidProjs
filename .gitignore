@@ -1,6 +1,6 @@
-指定你想让git忽略的文件模板。
+#指定你想让git忽略的文件模板。
 
-举例
+#举例
 #忽略windows生成的缩略图文件
 Thunbs.db
 #忽略Visual Studio生成时的产生的文件
@@ -28,3 +28,5 @@ Thunbs.db
 obj/
 [Rr]elease*/
 _ReSharper*/
+.metadata/*
+.metadata/.plugins/org.eclipse.core.resources/.projects/FirstSms/.markers.snap

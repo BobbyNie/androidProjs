@@ -9,7 +9,7 @@
 		<item value="false" key="GenerateJavadoc"/>
 	</section>
 	<section name="BuildPathsPropertyPage">
-		<item value="3" key="pageIndex"/>
+		<item value="0" key="pageIndex"/>
 	</section>
 	<section name="RefactoringWizard.preview">
 		<item value="400" key="height"/>

@@ -39,4 +39,6 @@
 <fullyQualifiedTypeName name="android.telephony.SmsManager"/>
 <fullyQualifiedTypeName name="android.app.PendingIntent"/>
 <fullyQualifiedTypeName name="java.lang.StringBuffer"/>
+<fullyQualifiedTypeName name="com.bobby.firstsms.MailSender"/>
+<fullyQualifiedTypeName name="java.lang.Runnable"/>
 </qualifiedTypeNameHistroy>
