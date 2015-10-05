@@ -2,8 +2,6 @@ package com.bobby.gen8auto;
  
 import android.app.Activity;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -25,13 +23,12 @@ public class MainActivity extends Activity {
 			@Override
 			public void onClick(View v) {
 
-				Toast.makeText(MainActivity.this, "停止中...", Toast.LENGTH_LONG).show();
 				new Thread(new Runnable() {
-					
 					@Override
 					public void run() {
+						showMsg( "停止中...");
 						boolean btnR = Gen8RestFullPower.ShutDown();
-						sendMsg(btnR ? "停止服务器成功！":"停止服务器失败！");
+						showMsg(btnR ? "停止服务器成功！":"停止服务器失败！");
 					}
 
 				}).start();
@@ -43,23 +40,17 @@ public class MainActivity extends Activity {
 	 * 发送提示消息
 	 * @param string
 	 */
-	private void sendMsg(String msgStr) {
-		Message msg = new Message();
-		Bundle data = new Bundle();
-		data.putString("msg", msgStr);
-		msg.setData(data );
-		msgHandler.sendMessage(msg);
+	private void showMsg(final String msg) {
+		
+		runOnUiThread(new Runnable() {
+			
+			@Override
+			public void run() {
+				Toast.makeText(MainActivity.this, msg, Toast.LENGTH_LONG).show();
+			}
+		});
 	}
-	
-	private Handler msgHandler = new MsgHander();
-	
-	private class MsgHander extends Handler{
-		@Override
-		public void handleMessage(Message msg) {
-			Toast.makeText(MainActivity.this.getApplicationContext(), msg.getData().getString("msg"), Toast.LENGTH_LONG).show();
-		}
-	};
-
+	 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.
