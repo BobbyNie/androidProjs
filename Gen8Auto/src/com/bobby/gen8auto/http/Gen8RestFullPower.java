@@ -48,8 +48,6 @@ import com.bobby.gen8auto.conf.Gen8Config;
 
 @SuppressLint("NewApi")
 public class Gen8RestFullPower {
-	final static HttpClient client = getHttpsClient();
-
 	public Gen8RestFullPower() {
 	}
 
@@ -125,11 +123,12 @@ public class Gen8RestFullPower {
 	 * 
 	 * @return
 	 */
-	private static synchronized String getPowerState() {
+	public static String getPowerState() {
 		try {
 			HttpUriRequest req = new HttpGet("https://" + Gen8Config.getIp() + ":" + Gen8Config.getPort() + "/rest/v1/Systems/1");
 			addAuthorizationHeader(req);
-			HttpResponse resp = client.execute(req);
+			HttpClient flashClient = getHttpsClient();
+			HttpResponse resp = flashClient .execute(req);
 			int out = resp.getStatusLine().getStatusCode();
 			if (out < 200 || out > 299) {
 				return "error httpstate:" + out;
@@ -186,7 +185,7 @@ public class Gen8RestFullPower {
 
 			for (int i = 0; i < 5; i++) {
 				try {
-					Thread.sleep(30 * 1000);
+					Thread.sleep(10 * 1000);
 				} catch (InterruptedException e) {
 					e.printStackTrace();
 				}
@@ -214,7 +213,8 @@ public class Gen8RestFullPower {
 			req.addHeader("Content-Type", "application/json");
 			req.setEntity(new StringEntity("{\"Action\":\"PowerButton\",\"PushType\":\"Press\"}"));
 
-			HttpResponse resp = client.execute(req);
+			HttpClient client = getHttpsClient();
+			HttpResponse resp = client .execute(req);
 			int out = resp.getStatusLine().getStatusCode();
 			if (out < 200 || out > 299) {
 				return "error http state:" + out;

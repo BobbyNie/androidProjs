@@ -1091,7 +1091,7 @@ containing a value of this type.
         public static final int action_menu_divider=0x7f090002;
         public static final int action_menu_presenter=0x7f090003;
         public static final int action_mode_close_button=0x7f090024;
-        public static final int action_settings=0x7f09003f;
+        public static final int action_settings=0x7f090043;
         public static final int activity_chooser_view_content=0x7f090025;
         public static final int always=0x7f09000f;
         public static final int beginning=0x7f090016;
@@ -1106,6 +1106,7 @@ containing a value of this type.
         public static final int end=0x7f090017;
         public static final int expand_activities_button=0x7f090026;
         public static final int expanded_menu=0x7f09002c;
+        public static final int flashBtn=0x7f09003f;
         public static final int home=0x7f090000;
         public static final int homeAsUp=0x7f09000a;
         public static final int icon=0x7f09002a;
@@ -1136,9 +1137,12 @@ containing a value of this type.
         public static final int showTitle=0x7f09000d;
         public static final int shutDownBtn=0x7f09003e;
         public static final int split_action_bar=0x7f09001e;
+        public static final int startUpBtn=0x7f090042;
+        public static final int stateView=0x7f090041;
         public static final int submit_area=0x7f090039;
         public static final int tabMode=0x7f090008;
         public static final int textView1=0x7f09003c;
+        public static final int textView2=0x7f090040;
         public static final int title=0x7f09002b;
         public static final int top_action_bar=0x7f090020;
         public static final int up=0x7f090021;
@@ -1202,6 +1206,9 @@ containing a value of this type.
         public static final int main=0x7f0c0000;
     }
     public static final class string {
+        public static final int FLASH_BTN=0x7f0a0012;
+        public static final int START_UP_BTN=0x7f0a0010;
+        public static final int STATE_TEXT_DEF=0x7f0a0013;
         /**  Content description for the action bar "home" affordance. [CHAR LIMIT=NONE] 
          */
         public static final int abc_action_bar_home_description=0x7f0a0001;
@@ -1245,6 +1252,7 @@ containing a value of this type.
         public static final int action_settings=0x7f0a000e;
         public static final int app_name=0x7f0a000d;
         public static final int config_rule=0x7f0a000f;
+        public static final int stateTitle=0x7f0a0011;
     }
     public static final class style {
         /** 

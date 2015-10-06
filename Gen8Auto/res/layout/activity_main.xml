@@ -33,4 +33,37 @@
         android:layout_marginBottom="54dp"
         android:text="ShutDown" />
 
+    <Button
+        android:id="@+id/flashBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/shutDownBtn"
+        android:layout_alignRight="@+id/editText1"
+        android:layout_marginBottom="49dp"
+        android:text="@string/FLASH_BTN" />
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/flashBtn"
+        android:layout_alignLeft="@+id/shutDownBtn"
+        android:text="@string/stateTitle" />
+
+    <TextView
+        android:id="@+id/stateView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/flashBtn"
+        android:layout_toLeftOf="@+id/flashBtn"
+        android:text="@string/STATE_TEXT_DEF" />
+
+    <Button
+        android:id="@+id/startUpBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/flashBtn"
+        android:layout_below="@+id/flashBtn"
+        android:text="@string/START_UP_BTN" />
+
 </RelativeLayout>

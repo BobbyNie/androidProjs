@@ -3,6 +3,10 @@
 
     <string name="app_name">Gen8Auto</string> 
     <string name="action_settings">Settings</string> 
-    <string name="config_rule">配置启动和停止规则：\n{星期1-7多选} {时间YYYYMMDDHH24mmss/HH24mmss} {动作start/sleep}\n多条规则通过换行标示</string>
+    <string name="config_rule">配置启动和停止规则：\n{星期1-7多选} {时间YYYYMMDDHH24mmss/HH24mmss} {动作start/sleep}\n多条规则通过换行标示</string> 
+    <string name="START_UP_BTN">StartUp</string> 
+    <string name="stateTitle">状态</string> 
+    <string name="FLASH_BTN">Flash</string> 
+    <string name="STATE_TEXT_DEF">UNKNOWN</string>
 
 </resources>
