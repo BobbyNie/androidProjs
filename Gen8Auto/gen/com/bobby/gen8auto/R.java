@@ -1091,7 +1091,7 @@ containing a value of this type.
         public static final int action_menu_divider=0x7f090002;
         public static final int action_menu_presenter=0x7f090003;
         public static final int action_mode_close_button=0x7f090024;
-        public static final int action_settings=0x7f090043;
+        public static final int action_settings=0x7f090044;
         public static final int activity_chooser_view_content=0x7f090025;
         public static final int always=0x7f09000f;
         public static final int beginning=0x7f090016;
@@ -1121,6 +1121,7 @@ containing a value of this type.
         public static final int progress_circular=0x7f090004;
         public static final int progress_horizontal=0x7f090005;
         public static final int radio=0x7f09002f;
+        public static final int saveAuto=0x7f090043;
         public static final int search_badge=0x7f090032;
         public static final int search_bar=0x7f090031;
         public static final int search_button=0x7f090033;
@@ -1252,6 +1253,7 @@ containing a value of this type.
         public static final int action_settings=0x7f0a000e;
         public static final int app_name=0x7f0a000d;
         public static final int config_rule=0x7f0a000f;
+        public static final int saveAutoBtn=0x7f0a0014;
         public static final int stateTitle=0x7f0a0011;
     }
     public static final class style {

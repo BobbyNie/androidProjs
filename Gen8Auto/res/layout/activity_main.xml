@@ -24,24 +24,6 @@
         android:ems="10"
         android:inputType="textMultiLine" />
 
-    <Button
-        android:id="@+id/shutDownBtn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/editText1"
-        android:layout_alignParentBottom="true"
-        android:layout_marginBottom="54dp"
-        android:text="ShutDown" />
-
-    <Button
-        android:id="@+id/flashBtn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_above="@+id/shutDownBtn"
-        android:layout_alignRight="@+id/editText1"
-        android:layout_marginBottom="49dp"
-        android:text="@string/FLASH_BTN" />
-
     <TextView
         android:id="@+id/textView2"
         android:layout_width="wrap_content"
@@ -65,5 +47,32 @@
         android:layout_alignLeft="@+id/flashBtn"
         android:layout_below="@+id/flashBtn"
         android:text="@string/START_UP_BTN" />
+
+    <Button
+        android:id="@+id/saveAuto"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignRight="@+id/editText1"
+        android:layout_below="@+id/editText1"
+        android:layout_marginTop="29dp"
+        android:text="@string/saveAutoBtn" />
+
+    <Button
+        android:id="@+id/shutDownBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/editText1"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="22dp"
+        android:text="ShutDown" />
+
+    <Button
+        android:id="@+id/flashBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/shutDownBtn"
+        android:layout_alignRight="@+id/saveAuto"
+        android:layout_marginBottom="24dp"
+        android:text="@string/FLASH_BTN" />
 
 </RelativeLayout>

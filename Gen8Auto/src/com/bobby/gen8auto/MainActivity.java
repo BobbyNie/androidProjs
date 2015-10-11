@@ -1,5 +1,9 @@
 package com.bobby.gen8auto;
  
+import java.util.concurrent.SynchronousQueue;
+import java.util.concurrent.ThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
+
 import android.app.Activity;
 import android.os.Bundle;
 import android.view.Menu;
@@ -10,13 +14,15 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bobby.gen8auto.alarm.AlarmReceiver;
 import com.bobby.gen8auto.http.Gen8RestFullPower;
 
 public class MainActivity extends Activity {
+	private static final ThreadPoolExecutor pool =new ThreadPoolExecutor(0, 20, 60L, TimeUnit.SECONDS, new SynchronousQueue<Runnable>());
 	private Button shutDownBtn;
 	
 	private Button startUpBtn;
-	
+	private Button saveAutoBtn;
 	private Button flashBtn;
 	private TextView stateText ;
 	
@@ -34,7 +40,7 @@ public class MainActivity extends Activity {
 			public void onClick(View v) {
 				shutDownBtn.setClickable(false);
 				startUpBtn.setClickable(false);
-				new Thread(new Runnable() {
+				pool.submit(new Runnable() {
 					@Override
 					public void run() {
 						try {
@@ -48,7 +54,7 @@ public class MainActivity extends Activity {
 						}
 					}
 
-				}).start();
+				});
 			}
 		});
 		
@@ -59,7 +65,7 @@ public class MainActivity extends Activity {
 			public void onClick(View v) {
 				shutDownBtn.setClickable(false);
 				startUpBtn.setClickable(false);
-				new Thread(new Runnable() {
+				pool.submit(new Runnable() {
 					@Override
 					public void run() {
 						try {
@@ -73,7 +79,7 @@ public class MainActivity extends Activity {
 						}
 					}
 
-				}).start();
+				});
 			}
 		});
 		
@@ -83,7 +89,7 @@ public class MainActivity extends Activity {
 			@Override
 			public void onClick(View v) {
 				flashBtn.setClickable(false);
-				new Thread(new Runnable() {
+				pool.submit(new Runnable() {
 					@Override
 					public void run() {
 						try {
@@ -97,7 +103,30 @@ public class MainActivity extends Activity {
 					}
 
 
-				}).start();
+				});
+			}
+		});
+		
+		saveAutoBtn = (Button) findViewById(R.id.saveAuto);
+		saveAutoBtn.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				saveAutoBtn.setClickable(false);
+				pool.submit(new Runnable() {
+					@Override
+					public void run() {
+						try {
+							showMsg("开始更新自动启停信息");
+							AlarmReceiver.setAlarm(MainActivity.this);
+							showMsg("自动启停信息成功！");
+						}finally {
+							saveAutoBtn.setClickable(true);
+						}
+					}
+
+
+				});
 			}
 		});
 	}

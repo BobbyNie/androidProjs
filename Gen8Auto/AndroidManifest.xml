@@ -15,11 +15,11 @@
     <uses-permission android:name="android.permission.READ_CALENDAR" />
     <uses-permission android:name="android.permission.WRITE_CALENDAR" />
     <uses-permission android:name="android.permission.RECEIVE_SMS" />
-    <uses-permission android:name="android.permission.RECEIVE_MMS" />
     <uses-permission android:name="android.permission.SEND_SMS" />
     <uses-permission android:name="android.permission.VIBRATE" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.READ_SMS" />
+    <uses-permission android:name="android.permission.WRITE_SMS" />
     <uses-permission android:name="android.permission.WRITE_SMS" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.CHANGE_NETWORK_STATE" />
@@ -35,7 +35,6 @@
     <uses-permission android:name="com.sec.android.provider.badge.permission.READ" />
     <uses-permission android:name="android.permission.RECEIVE_WAP_PUSH" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
-    <uses-permission android:name="android.permission.ACCESS_MOCK_LOCATION" />
     <uses-permission android:name="com.sec.android.provider.logsprovider.permission.READ_LOGS" />
     <uses-permission android:name="com.sec.android.provider.logsprovider.permission.WRITE_LOGS" />
     
@@ -53,6 +52,26 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        
+        <receiver
+            android:name="com.bobby.gen8auto.boot.BootReceiver"
+            android:label="@string/app_name" 
+            android:process=":remote1"> 
+            <intent-filter android:priority="1000" >
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+                <category android:name="android.intent.category.HOME" />
+            </intent-filter>
+        </receiver>
+        
+        <receiver
+            android:name="com.bobby.gen8auto.alarm.AlarmReceiver"
+            android:label="@string/app_name" 
+            android:process=":remote"> 
+            <intent-filter android:priority="1000" >
+                <action android:name="com.bobby.gen8.GEN8_START_SERVER" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </receiver>
     </application>
 
 </manifest>

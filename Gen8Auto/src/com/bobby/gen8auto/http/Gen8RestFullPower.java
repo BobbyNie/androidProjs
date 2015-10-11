@@ -18,6 +18,7 @@ import javax.net.ssl.SSLContext;
 import javax.net.ssl.TrustManager;
 import javax.net.ssl.X509TrustManager;
 
+import org.apache.http.HttpEntity;
 import org.apache.http.HttpRequest;
 import org.apache.http.HttpResponse;
 import org.apache.http.HttpVersion;
@@ -141,6 +142,7 @@ public class Gen8RestFullPower {
 				input.read(outBytes, outlen, len - outlen);
 			}
 			JSONObject obj = new JSONObject(new String(outBytes, "UTF-8"));
+			input.close();
 			return obj.getString("PowerState");
 		} catch (IOException e) {
 			return "error IOException";
@@ -218,6 +220,10 @@ public class Gen8RestFullPower {
 			int out = resp.getStatusLine().getStatusCode();
 			if (out < 200 || out > 299) {
 				return "error http state:" + out;
+			}
+			HttpEntity entty = resp.getEntity();
+			if(entty != null) {
+				entty.getContent().close();
 			}
 			return "ok";
 		} catch (IOException e) {
