@@ -1,4 +1,4 @@
-package com.bobby.firstsms;
+package com.bobby.mail;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
@@ -25,15 +25,19 @@ import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeMultipart;
 
+import com.bobby.gen8auto.conf.Gen8Config;
+
 
 public class MailSender extends Authenticator {
 
-	private String user = "18675620682@163.com";
-	private String password = "1234_dcba";
+	private String user = Gen8Config.getMailUser();
+	private String password = Gen8Config.getMailPassword();
 	private Session session;
-	private String mailhost = "smtp.163.com";
+	private String mailhost = Gen8Config.getMailhost();
+	
 	private Multipart messageMultipart;
 	private Properties properties;
+	
 	static {
 		Security.addProvider(new JSSEProvider());
 	}
@@ -131,35 +135,43 @@ public class MailSender extends Authenticator {
 		}
 
 		public PrintWriter getLogWriter() throws SQLException {
+			// TODO Auto-generated method stub
 			return null;
 		}
 
 		public int getLoginTimeout() throws SQLException {
+			// TODO Auto-generated method stub
 			return 0;
 		}
 
 		public void setLogWriter(PrintWriter out) throws SQLException {
+			// TODO Auto-generated method stub
 
 		}
 
 		public void setLoginTimeout(int seconds) throws SQLException {
+			// TODO Auto-generated method stub
 
 		}
 
 		public boolean isWrapperFor(Class<?> arg0) throws SQLException {
+			// TODO Auto-generated method stub
 			return false;
 		}
 
 		public <T> T unwrap(Class<T> arg0) throws SQLException {
+			// TODO Auto-generated method stub
 			return null;
 		}
 
 		public Connection getConnection() throws SQLException {
+			// TODO Auto-generated method stub
 			return null;
 		}
 
 		public Connection getConnection(String theUsername, String thePassword)
 				throws SQLException {
+			// TODO Auto-generated method stub
 			return null;
 		}
 	}

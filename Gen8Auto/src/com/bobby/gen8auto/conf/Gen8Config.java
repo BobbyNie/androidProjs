@@ -1,13 +1,41 @@
 package com.bobby.gen8auto.conf;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
+import com.bobby.gen8auto.schedule.AutoEvent;
+import com.bobby.gen8auto.schedule.weekly.Config2WeeklyEvent;
+
 public class Gen8Config {
 
 	private static String ip = "10.11.18.130";
 	private static String port = "443";
 	private static String username = "Administrator";
 	private static String passwd = "1234_dcba";
-	private static String autoConfig = "" + "on 12345 08:00:00" + "off 12345 08:00:00" + "on 12345 18:00:00" + "off 12345 23:00:00" + "on 6 05:00:00"
-			+ "off 7 23:59:00";
+
+	private static String mailUser = "18675620682@163.com";
+	private static String mailPassword = "1234_dcba";
+	private static String mailhost = "smtp.163.com";
+	private static String mailToUsers = "bobbynie@139.com,wsyzxls189@163.com";
+
+	private static List<String> autoManageList = Arrays.asList(new String[] {
+			"ON 12345 18:00:00",
+			"OFF 12345 23:00:00", 
+			"ON 6 05:00:00", 
+			"OFF 7 23:59:00" });
+
+	public static String getMailUser() {
+		return mailUser;
+	}
+
+	public static String getMailPassword() {
+		return mailPassword;
+	}
+
+	public static String getMailhost() {
+		return mailhost;
+	}
 
 	public static String getUsername() {
 		return username;
@@ -32,16 +60,25 @@ public class Gen8Config {
 	public static void setPasswd(String passwd) {
 		Gen8Config.passwd = passwd;
 	}
-
-	public static String getAutoConfig() {
-		return autoConfig;
-	}
-
-	public static void setAutoConfig(String autoConfig) {
-		Gen8Config.autoConfig = autoConfig;
-	}
+ 
 
 	public static String getPort() {
 		return port;
 	}
+
+	public static String getMailToUsers() {
+		return mailToUsers;
+	}
+
+	private static  List<AutoEvent>  autoEvents = null;
+	public static List<AutoEvent> getAutoManageList() {
+		if(autoEvents == null) {
+			autoEvents = new ArrayList<>();
+			for(String config:autoManageList) {
+				autoEvents.addAll(Config2WeeklyEvent.config2Event(config));
+			};
+		}
+		return autoEvents;
+	}
+ 
 }

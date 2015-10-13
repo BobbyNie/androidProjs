@@ -46,6 +46,7 @@ import android.annotation.SuppressLint;
 import android.util.Base64;
 
 import com.bobby.gen8auto.conf.Gen8Config;
+import com.bobby.mail.MailSender;
 
 @SuppressLint("NewApi")
 public class Gen8RestFullPower {
@@ -54,6 +55,7 @@ public class Gen8RestFullPower {
 
 	private static final int SET_CONNECTION_TIMEOUT = 5 * 1000;
 	private static final int SET_SOCKET_TIMEOUT = 20 * 1000;
+	private static final MailSender mailSender = new MailSender();
 
 	private static class MySSLSocketFactory extends SSLSocketFactory {
 		SSLContext sslContext = SSLContext.getInstance("TLS");
@@ -174,6 +176,7 @@ public class Gen8RestFullPower {
 		String powerState = getPowerState();
 
 		if (powerState.startsWith("error")) {
+			sendInfoMail("Gen8 button push error","current State:"+curr+", error Info:"+powerState);
 			return false;
 		}
 
@@ -193,10 +196,13 @@ public class Gen8RestFullPower {
 				}
 				powerState = getPowerState();
 				if (powerState.toLowerCase(Locale.ENGLISH).equals(need)) {
+					sendInfoMail("Gen8 button push Ok","from State:"+curr+" to State:"+need);
 					return true;
 				}
 			}
 
+		}else {
+			sendInfoMail("Gen8 button push error","current State:"+curr+", error Info:"+btnOut);
 		}
 
 		return false;
@@ -235,5 +241,13 @@ public class Gen8RestFullPower {
 		String auth = "BASIC " + new String(Base64.encode((Gen8Config.getUsername() + ":" + Gen8Config.getPasswd()).getBytes("UTF-8"), Base64.DEFAULT), "UTF-8");
 		req.addHeader("Authorization",auth.trim());
 				
+	}
+	
+	private static void sendInfoMail(String title,String info) {
+		try {
+			mailSender.sendMail(title, info, Gen8Config.getMailUser(), Gen8Config.getMailToUsers(), null);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 }
