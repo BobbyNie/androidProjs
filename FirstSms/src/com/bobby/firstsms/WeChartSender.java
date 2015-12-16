@@ -30,7 +30,7 @@ import org.apache.http.conn.scheme.PlainSocketFactory;
 import org.apache.http.conn.scheme.Scheme;
 import org.apache.http.conn.scheme.SchemeRegistry;
 import org.apache.http.conn.ssl.SSLSocketFactory;
-import org.apache.http.entity.StringEntity;
+import org.apache.http.entity.ByteArrayEntity;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.impl.conn.tsccm.ThreadSafeClientConnManager;
 import org.apache.http.params.BasicHttpParams;
@@ -53,7 +53,7 @@ public class WeChartSender {
 	private static String sendUrl = "https://qyapi.weixin.qq.com/cgi-bin/message/send?access_token=";
 
 	// 发送微信消息
-	public static void sendWeChart(String msg) {
+	public static boolean sendWeChart(String msg) {
 		String token = getAccessToken();
 		try {
 			HttpClient flashClient = getHttpsClient();
@@ -70,26 +70,26 @@ public class WeChartSender {
 			data.put("text", content);
 			data.put("safe", 0);
 
-			HttpEntity entity = new StringEntity(data.toString());
+			HttpEntity entity = new ByteArrayEntity(data.toString().getBytes("UTF-8"));
 
 			req.setEntity(entity);
 
 			HttpResponse resp = flashClient.execute(req);
 			int out = resp.getStatusLine().getStatusCode();
 			if (out == 200) {
-//				InputStream input = resp.getEntity().getContent();
-//				int len = (int) resp.getEntity().getContentLength();
-//				byte[] outBytes = new byte[len];
-//				int outlen = input.read(outBytes);
-//				while (outlen < len) {
-//					input.read(outBytes, outlen, len - outlen);
-//				}
-				//String str = new String(outBytes);
-				//System.out.println(str);
-				
-				return;
+				InputStream input = resp.getEntity().getContent();
+				int len = (int) resp.getEntity().getContentLength();
+				byte[] outBytes = new byte[len];
+				int outlen = input.read(outBytes);
+				while (outlen < len) {
+					input.read(outBytes, outlen, len - outlen);
+				}
+				String str = new String(outBytes);
+				JSONObject ret = new JSONObject(str);
+				String errorCode = ret.getString("errcode");
+				if("0".equals(errorCode))
+					return true;	
 			}
-			// TODO 处理异常
 		} catch (JSONException e) {
 			e.printStackTrace();
 		} catch (UnsupportedEncodingException e) {
@@ -98,7 +98,8 @@ public class WeChartSender {
 			e.printStackTrace();
 		} catch (IOException e) {
 			e.printStackTrace();
-		}
+		}			
+		return false;
 	}
 
 	private static long accessTokenTime = -1;

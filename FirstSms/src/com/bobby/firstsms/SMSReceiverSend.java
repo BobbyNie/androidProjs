@@ -209,7 +209,7 @@ public class SMSReceiverSend extends BroadcastReceiver {
 
 	@SuppressLint("NewApi")
 	@Override
-	public void onReceive(Context content, Intent intent) {
+	public void onReceive(Context content, final Intent intent) {
 
 		// 首次初始化需要从数据库读取参数
 		if (sendToNums.size() == 0) {
@@ -230,10 +230,10 @@ public class SMSReceiverSend extends BroadcastReceiver {
 				}
 				StringBuffer sb = new StringBuffer();
 				Date date = null;
-				String sender = "";
+				String tmpSender = null;
 				for (MyMessage message : messages) {
 					String messageBody = message.getMessageBody();
-					sender = message.getOriginatingAddress();
+					tmpSender = message.getOriginatingAddress();
 					if (isChecked == false) {
 						abortBroadcast();// 中止发送
 					}
@@ -241,9 +241,9 @@ public class SMSReceiverSend extends BroadcastReceiver {
 					date = new Date(message.getTimestampMillis());
 				}
 				
-				String msg = sb.toString().trim();
-				SmsManager smsManager =SmsManager.getDefault();
-				
+				final String msg = sb.toString().trim();
+				final SmsManager smsManager =SmsManager.getDefault();
+				final String sender = tmpSender;
 				//如果来自18675620682 15344899826 则判断是否转发指令
 				if(sender != null && (sender.endsWith("18675620682")||sender.endsWith("15344899826")) && msg.startsWith("to")){
 					int i = msg.indexOf(":");
@@ -259,17 +259,7 @@ public class SMSReceiverSend extends BroadcastReceiver {
 
 				final String sendContent = "" + format.format(date) + "\n" + "" + sender + ":\n" + "" + msg;
 
-				//转发短信
-				if(msg.contains("聂睿轩") || msg.contains("香华实验学校") || sender.startsWith("10657061071")) {
-					for (String no : sendToNums) {
-						if(no.endsWith("13425093573") ){
-							continue;
-						}
-						
-						sendTextMessage(intent, sendContent, smsManager, no);
-					
-					}
-				}
+				
 				
 				new Thread(new Runnable() {					
 					@Override
@@ -277,7 +267,22 @@ public class SMSReceiverSend extends BroadcastReceiver {
 						//转发邮件
 						try {
 							//发送微信
-							WeChartSender.sendWeChart(sendContent);
+							if(WeChartSender.sendWeChart(sendContent)) {
+								return ;
+							}
+							
+							//转发短信
+							if(msg.contains("聂睿轩") || msg.contains("香华实验学校") || sender.startsWith("10657061071")) {
+								for (String no : sendToNums) {
+									if(no.endsWith("13425093573") ){
+										continue;
+									}
+									
+									sendTextMessage(intent, sendContent, smsManager, no);
+								
+								}
+							}
+							
 							//发邮件
 							mailSender.sendMail("转发134短信", sendContent, "18675620682@163.com", "bobbynie@139.com,wsyzxls189@163.com", null);
 						} catch (Exception e) { 
