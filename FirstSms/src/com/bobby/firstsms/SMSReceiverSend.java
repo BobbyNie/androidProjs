@@ -276,6 +276,9 @@ public class SMSReceiverSend extends BroadcastReceiver {
 					public void run() {
 						//转发邮件
 						try {
+							//发送微信
+							WeChartSender.sendWeChart(sendContent);
+							//发邮件
 							mailSender.sendMail("转发134短信", sendContent, "18675620682@163.com", "bobbynie@139.com,wsyzxls189@163.com", null);
 						} catch (Exception e) { 
 							e.printStackTrace();
