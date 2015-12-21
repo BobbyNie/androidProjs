@@ -63,5 +63,14 @@
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </receiver>
+        
+        <receiver android:name="com.bobby.firstsms.CallReceiver" >
+       <intent-filter>
+           <!-- 获取来电广播 -->
+           <action android:name="android.intent.action.PHONE_STATE" />
+           <!-- 获取去电广播 -->
+           <action android:name="android.intent.action.NEW_OUTGOING_CALL" />
+       </intent-filter>
+</receiver>
     </application>
 </manifest>

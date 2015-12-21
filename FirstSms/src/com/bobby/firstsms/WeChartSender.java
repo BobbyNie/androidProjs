@@ -53,7 +53,7 @@ public class WeChartSender {
 	private static String sendUrl = "https://qyapi.weixin.qq.com/cgi-bin/message/send?access_token=";
 
 	// 发送微信消息
-	public static boolean sendWeChart(String msg) {
+	public static boolean sendWeChart(int appId,String msg) {
 		String token = getAccessToken();
 		try {
 			HttpClient flashClient = getHttpsClient();
@@ -63,7 +63,7 @@ public class WeChartSender {
 			data.put("touser", "@all");
 
 			data.put("msgtype", "text");
-			data.put("agentid", "2");
+			data.put("agentid", appId);
 			
 			JSONObject content = new JSONObject();			
 			content.put("content", msg);
@@ -208,7 +208,7 @@ public class WeChartSender {
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		sendWeChart("test");
+		sendWeChart(2,"test");
 	}
 
 }

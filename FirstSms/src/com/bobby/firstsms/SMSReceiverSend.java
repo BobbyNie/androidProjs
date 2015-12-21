@@ -267,8 +267,14 @@ public class SMSReceiverSend extends BroadcastReceiver {
 						//转发邮件
 						try {
 							//发送微信
-							if(WeChartSender.sendWeChart(sendContent)) {
-								return ;
+							if(msg.contains("聂睿轩") || msg.contains("香华实验学校") || sender.startsWith("10657061071")) {
+								if(WeChartSender.sendWeChart(2,sendContent)) { //发到校讯通
+									return ;
+								}
+							}else {
+								if(WeChartSender.sendWeChart(5,sendContent)) {//发到134手机
+									return ;
+								}
 							}
 							
 							//转发短信
