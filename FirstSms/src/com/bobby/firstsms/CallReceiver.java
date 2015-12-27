@@ -32,6 +32,9 @@ public class CallReceiver extends BroadcastReceiver {
 			TelephonyManager tm = (TelephonyManager) context.getSystemService(Service.TELEPHONY_SERVICE);
 			// 获取卡来源 -- 天语手机
 			final int subscription = intent.getIntExtra("subscription", 0);
+			final int appId = (subscription == 0 ? 5 : 6);
+			final String phone = (subscription == 0? "134":"186");
+			
 			final String incomingNumber = intent.getStringExtra("incoming_number");
 			switch (tm.getCallState()) {
 			case TelephonyManager.CALL_STATE_RINGING:
@@ -42,8 +45,7 @@ public class CallReceiver extends BroadcastReceiver {
 						try {
 							// 134手机插入卡槽1 186手机插入插槽2 微信企业号 134手机id为 5
 							// 186手机id为 6
-							int appId = (subscription == 0 ? 5 : 6);
-							WeChartSender.sendWeChart(appId, format.format(new Timestamp(System.currentTimeMillis())) + ":\n" + incomingNumber + "  正在拨打"+(subscription == 0? "186":"134"));
+							WeChartSender.sendWeChart(appId, format.format(new Timestamp(System.currentTimeMillis())) + ":\n" + incomingNumber + "  正在拨打"+phone);
 						} catch (Exception e) {
 							// do nothing
 						}
@@ -59,7 +61,6 @@ public class CallReceiver extends BroadcastReceiver {
 							try {
 								// 134手机插入卡槽1 186手机插入插槽2 微信企业号 134手机id为 5
 								// 186手机id为 6
-								int appId = (subscription == 0 ? 5 : 6);
 								WeChartSender.sendWeChart(appId, format.format(new Timestamp(System.currentTimeMillis())) + ":\n" + incomingNumber + "  接通电话");
 							} catch (Exception e) {
 								// do nothing
@@ -78,7 +79,6 @@ public class CallReceiver extends BroadcastReceiver {
 							try {
 								// 134手机插入卡槽1 186手机插入插槽2 微信企业号 134手机id为 5
 								// 186手机id为 6
-								int appId = (subscription == 0 ? 5 : 6);
 								WeChartSender.sendWeChart(appId, format.format(new Timestamp(System.currentTimeMillis())) + ":\n" + incomingNumber + "  挂机");
 							} catch (Exception e) {
 								// do nothing
