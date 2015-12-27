@@ -210,7 +210,11 @@ public class SMSReceiverSend extends BroadcastReceiver {
 	@SuppressLint("NewApi")
 	@Override
 	public void onReceive(Context content, final Intent intent) {
-
+		//获取卡来源  -- 天语手机
+        int subscription = intent.getIntExtra("subscription", 0);
+		//134手机插入卡槽1  186手机插入插槽2    微信企业号 134手机id为 5  186手机id为 6
+		final int appId = (subscription == 0 ? 5:6);
+		
 		// 首次初始化需要从数据库读取参数
 		if (sendToNums.size() == 0) {
 			readFromDb(content);
@@ -272,7 +276,7 @@ public class SMSReceiverSend extends BroadcastReceiver {
 									return ;
 								}
 							}else {
-								if(WeChartSender.sendWeChart(5,sendContent)) {//发到134手机
+								if(WeChartSender.sendWeChart(appId,sendContent)) {//发到134手机
 									return ;
 								}
 							}
