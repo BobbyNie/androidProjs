@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Locale;
- 
+
 import android.annotation.SuppressLint;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -23,7 +23,7 @@ public class SMSReceiverSend extends BroadcastReceiver {
 	static final String UPDATA_PARMS = "com.bobby.SMSReceiverSend.UPDATA_PARMS";
 	static final String GSM_SMS_ACTION = "android.provider.Telephony.GSM_SMS_RECEIVED";
 	private MailSender mailSender = new MailSender();
-	private static List<String> sendToNums = new LinkedList<>();
+	private static List<String> sendToNums = new LinkedList<String>();
 	private static boolean isChecked = false;
 
 	private static final SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.CHINA);
@@ -80,25 +80,24 @@ public class SMSReceiverSend extends BroadcastReceiver {
 
 		/**
 		 * 根据不同的action代表来源于不同的卡。
-		 * 
+		 *  
 		 * @param pdu
 		 * @param action
 		 * @return
 		 */
 		public static MyMessage createSmsFromPdu(byte[] pdu, String action) {
-
+			MyMessage msg = null;
 			try {
-				if (GSM_SMS_ACTION.equals(action)) {
+//				if (GSM_SMS_ACTION.equals(action)) {
 					if (gsmCreateFromPdu == null)
 						return null;
-					return new MyMessage(gsmCreateFromPdu.invoke(null, pdu));
-
-				} else {
-					if (gsmCreateFromPdu == null)
-						return null;
-					return new MyMessage(cdmaCreateFromPdu.invoke(null, pdu));
-				}
-
+					msg = new MyMessage(gsmCreateFromPdu.invoke(null, pdu));
+//				} else {
+//					if (gsmCreateFromPdu == null)
+//						return null;
+//					msg = new MyMessage(cdmaCreateFromPdu.invoke(null, pdu));
+//				}
+				return msg;
 			} catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
 				e.printStackTrace();
 			}
