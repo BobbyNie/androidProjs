@@ -32,7 +32,7 @@ public class CallReceiver extends BroadcastReceiver {
 			TelephonyManager tm = (TelephonyManager) context.getSystemService(Service.TELEPHONY_SERVICE);
 			// 获取卡来源 -- 天语手机
 			final int subscription = intent.getIntExtra("subscription", 0);
-			final int appId = (subscription == 0 ? 5 : 6);
+			final int appId = (subscription == 0 ? 6 : 5);
 			final String phone = (subscription == 0? "134":"186");
 			
 			final String incomingNumber = intent.getStringExtra("incoming_number");
