@@ -33,7 +33,7 @@ public class CallReceiver extends BroadcastReceiver {
 			// 获取卡来源 -- 天语手机
 			final int subscription = intent.getIntExtra("subscription", 0);
 			final int appId = (subscription == 0 ? 6 : 5);
-			final String phone = (subscription == 0? "134":"186");
+			final String phone = (subscription == 0 ? "186":"134");
 			
 			final String incomingNumber = intent.getStringExtra("incoming_number");
 			switch (tm.getCallState()) {
